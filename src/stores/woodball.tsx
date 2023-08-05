@@ -19,9 +19,6 @@ export const woodBallSlice = createSlice({
     setGoal: (state, action) => {
       state.game.goalNumber = action.payload;
     },
-    setWoodBallData: (state, action) => {
-      state = action.payload;
-    },
     addTeam: (state) => {
       const teamId = state.teams.length + 1;
       state.teams = [
@@ -32,6 +29,6 @@ export const woodBallSlice = createSlice({
   },
 });
 
-export const { setGoal, setWoodBallData, addTeam } = woodBallSlice.actions;
+export const { setGoal, addTeam } = woodBallSlice.actions;
 
 export default woodBallSlice.reducer;
