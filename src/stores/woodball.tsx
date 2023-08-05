@@ -23,12 +23,24 @@ export const woodBallSlice = createSlice({
       const teamId = state.teams.length + 1;
       state.teams = [
         ...state.teams,
-        { id: teamId, name: 'team-' + teamId, players: [] },
+        { id: teamId, name: 'ทีม - ' + teamId, players: [] },
       ];
+    },
+    setTeamName: (state, action) => {
+      const { teamId, teamName } = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            name: teamName,
+          };
+        }
+        return team;
+      });
     },
   },
 });
 
-export const { setGoal, addTeam } = woodBallSlice.actions;
+export const { setGoal, addTeam, setTeamName } = woodBallSlice.actions;
 
 export default woodBallSlice.reducer;

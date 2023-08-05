@@ -2,6 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { PlusIcon, UsersIcon } from '@heroicons/react/24/solid';
 import { Button } from '@material-tailwind/react';
 import { addTeam } from '@/stores/woodball';
+import { memo } from 'react';
+import TeamCard from '@/components/team/TeamCard';
 
 const MainBoard = () => {
   const teams = useAppSelector((state) => state.woodBall.teams);
@@ -14,7 +16,7 @@ const MainBoard = () => {
       </div>
       <div className="flex flex-col p-2">
         {teams?.map((team) => (
-          <div key={team.id}>{team.id + ' - ' + team.name}</div>
+          <TeamCard key={team.id} teamId={team.id} />
         ))}
       </div>
       <div>
@@ -26,4 +28,4 @@ const MainBoard = () => {
   );
 };
 
-export default MainBoard;
+export default memo(MainBoard);
