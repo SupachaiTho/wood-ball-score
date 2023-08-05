@@ -1,14 +1,20 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/react/24/solid';
 import {
-  Card,
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
+  UserGroupIcon,
+  UserPlusIcon,
+} from '@heroicons/react/24/solid';
+import {
+  Button,
   Accordion,
   AccordionHeader,
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { setTeamName } from '@/stores/woodball';
+import { addPlayer, setTeamName } from '@/stores/woodball';
 import { memo, useState } from 'react';
+import RemoveTeamButton from '@/components/common/dialog-button/RemoveTeamButton';
 
 const TeamCard = ({ teamId }: { teamId: number }) => {
   const dispatch = useAppDispatch();
@@ -22,7 +28,7 @@ const TeamCard = ({ teamId }: { teamId: number }) => {
   }
 
   return (
-    <>
+    <div className="flex">
       <Accordion
         open={open}
         className="mb-2 rounded-lg border border-blue-gray-100 px-4">
@@ -41,8 +47,8 @@ const TeamCard = ({ teamId }: { teamId: number }) => {
           </div>
         </AccordionHeader>
         <AccordionBody>
-          <Card>
-            <div className="flex">
+          <div className="flex flex-col">
+            <div className="flex justify-between">
               <Input
                 variant="static"
                 label="ชื่อทีม"
@@ -53,12 +59,31 @@ const TeamCard = ({ teamId }: { teamId: number }) => {
                 }
                 value={team.name}
               />
+              <div className="mx-2">
+                <RemoveTeamButton teamId={teamId} />
+              </div>
             </div>
-            <div></div>
-          </Card>
+            <div className="flex flex-col mt-4">
+              <div className="flex">
+                <UserGroupIcon className="w-5 mr-2" />
+                <h1 className="text-xl font-bold">รายชื่อนักกีฬา</h1>
+              </div>
+              {team.players.map((player) => (
+                <div className="flex">{player.name}</div>
+              ))}
+              <div className="mt-4">
+                <Button
+                  size="sm"
+                  className="flex"
+                  onClick={() => dispatch(addPlayer(teamId))}>
+                  <UserPlusIcon className="mr-1 w-4" /> เพิ่มนักกีฬา
+                </Button>
+              </div>
+            </div>
+          </div>
         </AccordionBody>
       </Accordion>
-    </>
+    </div>
   );
 };
 

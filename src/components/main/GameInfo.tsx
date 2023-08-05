@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '@/app/hooks';
 import { setGoal } from '@/stores/woodball';
 import { memo } from 'react';
 import { WrenchScrewdriverIcon } from '@heroicons/react/24/solid';
-import ResetButton from '@/components/comman/ResetButton';
+import ResetButton from '@/components/common/dialog-button/ResetButton';
 
 const GameInfo = () => {
   const goalNumber = useAppSelector((state) => state.woodBall.game.goalNumber);
@@ -12,8 +12,8 @@ const GameInfo = () => {
   return (
     <div className="flex flex-col p-2 mt-2 border border-blue-200 rounded-lg">
       <div className="flex p2 text-gray-700">
-        <h1 className="text-2xl font-bold">ตั้งค่า</h1>
         <WrenchScrewdriverIcon className="mx-1 w-5" />
+        <h1 className="text-2xl font-bold">ตั้งค่า</h1>
       </div>
       <div className="flex mt-2 justify-between">
         <div className="p-2">

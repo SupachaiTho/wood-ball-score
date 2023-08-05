@@ -27,6 +27,10 @@ export const woodBallSlice = createSlice({
         { id: teamId, name: 'ทีม - ' + teamId, players: [] },
       ];
     },
+    removeTeam: (state, action) => {
+      const teamId = action.payload;
+      state.teams = state.teams.filter((team) => team.id !== teamId);
+    },
     setTeamName: (state, action) => {
       const { teamId, teamName } = action.payload;
       state.teams = state.teams.map((team) => {
@@ -42,10 +46,35 @@ export const woodBallSlice = createSlice({
     resetData: (state) => {
       state.teams = defaultState.teams;
     },
+    addPlayer: (state, action) => {
+      const teamId = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          const playerId = team.players.length + 1;
+          return {
+            ...team,
+            players: [
+              ...team.players,
+              {
+                id: playerId,
+                name: 'นักกีฬา - ' + playerId,
+              },
+            ],
+          };
+        }
+        return team;
+      });
+    },
   },
 });
 
-export const { setGoal, addTeam, setTeamName, resetData } =
-  woodBallSlice.actions;
+export const {
+  setGoal,
+  addTeam,
+  removeTeam,
+  setTeamName,
+  addPlayer,
+  resetData,
+} = woodBallSlice.actions;
 
 export default woodBallSlice.reducer;

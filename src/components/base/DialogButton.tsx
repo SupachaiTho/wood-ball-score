@@ -6,12 +6,18 @@ import {
   DialogBody,
   DialogFooter,
 } from '@material-tailwind/react';
-import { resetData } from '@/stores/woodball';
-import { useAppDispatch } from '@/app/hooks';
 
-const ResetButton = () => {
-  const dispatch = useAppDispatch();
-
+const DialogButton = ({
+  buttonLabel,
+  buttonTitle,
+  buttonDescription,
+  onClick,
+}: {
+  buttonLabel: string;
+  buttonTitle: string;
+  buttonDescription: string;
+  onClick: Function;
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -19,14 +25,11 @@ const ResetButton = () => {
   return (
     <>
       <Button color="red" onClick={handleOpen} variant="gradient" size="sm">
-        รีเซ็ตข้อมูลเพื่อเริ่มใหม่
+        {buttonLabel}
       </Button>
       <Dialog open={open} handler={handleOpen}>
-        <DialogHeader>ยื่นยันที่จะรีเซ็ตข้อมูลเพื่อเริ่มใหม่</DialogHeader>
-        <DialogBody divider>
-          โปรดยื่นยันเพื่อรีเซ็ตข้อมูลเพื่อเริ่มใหม่
-          หลังจากรีเซ็ตข้อมูลคุณไม่สามารถกู้คืนข้อมูลที่ได้ใส่ไปได้อีก
-        </DialogBody>
+        <DialogHeader>{buttonTitle}</DialogHeader>
+        <DialogBody divider>{buttonDescription}</DialogBody>
         <DialogFooter>
           <Button
             variant="text"
@@ -39,7 +42,7 @@ const ResetButton = () => {
             variant="gradient"
             color="red"
             onClick={() => {
-              dispatch(resetData());
+              onClick();
               handleOpen();
             }}>
             <span>ยื่นยัน</span>
@@ -50,4 +53,4 @@ const ResetButton = () => {
   );
 };
 
-export default ResetButton;
+export default DialogButton;
