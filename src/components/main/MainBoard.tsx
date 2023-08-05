@@ -11,7 +11,7 @@ const MainBoard = () => {
   return (
     <div className="flex flex-col p-2 mt-2 border border-blue-200 rounded-lg">
       <div className="flex text-gray-700">
-        <h1 className="text-2xl font-bold">Teams</h1>
+        <h1 className="text-2xl font-bold">รายชื่อทีม</h1>
         <UsersIcon className="mx-1 w-5" />
       </div>
       <div className="flex flex-col p-2">

@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const defaultState = {
+  game: {
+    goalNumber: 20,
+  },
+  teams: [],
+};
 const localStorageData = localStorage.getItem('woodBall');
 const localWoodBallData = localStorageData
   ? JSON.parse(localStorageData)
-  : {
-      game: {
-        goalNumber: 20,
-      },
-      teams: [],
-    };
+  : defaultState;
 
 const initialState = localWoodBallData as WoodBallState;
 
@@ -38,9 +39,13 @@ export const woodBallSlice = createSlice({
         return team;
       });
     },
+    resetData: (state) => {
+      state = defaultState;
+    },
   },
 });
 
-export const { setGoal, addTeam, setTeamName } = woodBallSlice.actions;
+export const { setGoal, addTeam, setTeamName, resetData } =
+  woodBallSlice.actions;
 
 export default woodBallSlice.reducer;
