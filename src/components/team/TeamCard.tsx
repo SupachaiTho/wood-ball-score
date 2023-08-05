@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/react/24/solid';
 import {
-  Button,
   Card,
   Accordion,
   AccordionHeader,
