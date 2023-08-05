@@ -38,7 +38,10 @@ const ResetButton = () => {
           <Button
             variant="gradient"
             color="red"
-            onClick={() => dispatch(resetData)}>
+            onClick={() => {
+              dispatch(resetData());
+              handleOpen();
+            }}>
             <span>ยื่นยัน</span>
           </Button>
         </DialogFooter>

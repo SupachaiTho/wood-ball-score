@@ -40,7 +40,7 @@ export const woodBallSlice = createSlice({
       });
     },
     resetData: (state) => {
-      state = defaultState;
+      state.teams = defaultState.teams;
     },
   },
 });

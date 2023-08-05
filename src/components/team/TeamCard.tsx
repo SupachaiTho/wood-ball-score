@@ -55,6 +55,7 @@ const TeamCard = ({ teamId }: { teamId: number }) => {
                 value={team.name}
               />
             </div>
+            <div></div>
           </Card>
         </AccordionBody>
       </Accordion>
