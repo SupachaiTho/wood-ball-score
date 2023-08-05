@@ -1,10 +1,13 @@
-import GameInfo from "@/components/GameInfo";
+import Head from '@/components/sections/Head';
+import Layout from '@/components/base/Layout';
+import { woodBallBackup } from '@/hooks/woodballBackup';
 
 function App() {
+  woodBallBackup();
   return (
-    <div>
-      <GameInfo />
-    </div>
+    <Layout>
+      <Head />
+    </Layout>
   );
 }
 

@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"],
-      "stores/*": ["src/stores/*"],
-      "components/*": ["src/components/*"],
-      "types/*": ["src/types/*"],
-      "public/*": ["public/*"]
+      "@/*": ["*"],
+      "@/stores/*": ["stores/*"],
+      "@/components/*": ["components/*"],
+      "@/types/*": ["types/*"],
+      "public/*": ["./public/*"]
     },
 
     "target": "ES2020",

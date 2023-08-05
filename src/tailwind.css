@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+
+@font-face {
+    font-family: 'TH-Sarabun';
+    src: local('TH-Sarabun'), url(./fonts/TH-Sarabun-New-Regular.ttf) format('ttf');
+  }
+
+@tailwind utilities;
+
