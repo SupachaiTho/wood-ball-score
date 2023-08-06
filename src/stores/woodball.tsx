@@ -81,12 +81,20 @@ export const woodBallSlice = createSlice({
       });
     },
     setPlayerName: (state, action) => {
-      const { teamId, teamName } = action.payload;
+      const { teamId, playerId, playerName } = action.payload;
       state.teams = state.teams.map((team) => {
         if (team.id === teamId) {
           return {
             ...team,
-            name: teamName,
+            players: team.players.map((player) => {
+              if (player.id === playerId) {
+                return {
+                  ...player,
+                  name: playerName,
+                };
+              }
+              return player;
+            }),
           };
         }
         return team;
@@ -102,6 +110,7 @@ export const {
   setTeamName,
   addPlayer,
   removePlayer,
+  setPlayerName,
   resetData,
 } = woodBallSlice.actions;
 

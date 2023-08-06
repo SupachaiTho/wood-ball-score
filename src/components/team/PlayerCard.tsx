@@ -6,7 +6,7 @@ import {
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { setTeamName } from '@/stores/woodball';
+import { setPlayerName } from '@/stores/woodball';
 import { memo, useState } from 'react';
 import RemovePlayerButton from '@/components/common/dialog-button/RemovePlayerButton';
 
@@ -55,7 +55,11 @@ const PlayerCard = ({
                 label="ชื่อ"
                 onChange={(e) =>
                   dispatch(
-                    setTeamName({ teamId: teamId, teamName: e.target.value })
+                    setPlayerName({
+                      teamId: teamId,
+                      playerId: playerId,
+                      playerName: e.target.value,
+                    })
                   )
                 }
                 value={player.name}
