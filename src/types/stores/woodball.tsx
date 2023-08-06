@@ -23,6 +23,7 @@ interface Player {
 
 interface Round {
   id: string;
+  index: string;
   goals: Goal[];
 }
 

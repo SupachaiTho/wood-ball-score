@@ -121,7 +121,8 @@ export const woodBallSlice = createSlice({
                     ...(player.rounds ?? []),
                     {
                       id: roundId,
-                      goals: Array.from({ length: 10 }, (_, index) => {
+                      index: ((player.rounds ?? []).length + 1).toString(),
+                      goals: Array.from({ length: goalNumber }, (_, index) => {
                         return {
                           id: index + 1,
                           score: 0,
@@ -129,6 +130,54 @@ export const woodBallSlice = createSlice({
                       }),
                     },
                   ],
+                };
+              }
+              return player;
+            }),
+          };
+        }
+        return team;
+      });
+    },
+    removeRound: (state, action) => {
+      const { teamId, playerId, roundId } = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            players: team.players.map((player) => {
+              if (player.id === playerId) {
+                return {
+                  ...player,
+                  rounds: player.rounds.filter((round) => round.id !== roundId),
+                };
+              }
+              return player;
+            }),
+          };
+        }
+        return team;
+      });
+    },
+    setRoundIndex: (state, action) => {
+      const { teamId, playerId, roundId, roundIndex } = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            players: team.players.map((player) => {
+              if (player.id === playerId) {
+                return {
+                  ...player,
+                  rounds: player.rounds.map((round) => {
+                    if (round.id === roundId) {
+                      return {
+                        ...round,
+                        index: roundIndex,
+                      };
+                    }
+                    return round;
+                  }),
                 };
               }
               return player;
@@ -152,6 +201,8 @@ export const {
   setPlayerName,
   resetData,
   addRound,
+  removeRound,
+  setRoundIndex,
 } = woodBallSlice.actions;
 
 export default woodBallSlice.reducer;

@@ -17,10 +17,10 @@ const RemovePlayerButton = ({
   return (
     <DialogButton
       buttonLabel="ลบนักกีฬา"
-      buttonTitle={`ยื่นยันที่จะลบกีฬา ${player ? player.name : ''}`}
-      buttonDescription={`โปรดยื่นยันเพื่อลบกีฬา ${
+      buttonTitle={`ยื่นยันที่จะลบนักกีฬา ${player ? player.name : ''}`}
+      buttonDescription={`โปรดยื่นยันเพื่อลบนักกีฬา ${
         player ? player.name : ''
-      } หลังจากลบกีฬา ${
+      } หลังจากลบนักกีฬา ${
         player ? player.name : ''
       } คุณจะไม่สามารถกู้คืนข้อมูลที่ได้ใส่ไปได้อีก`}
       onClick={() => dispatch(removePlayer({ teamId, playerId }))}

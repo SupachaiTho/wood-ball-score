@@ -1,37 +1,36 @@
+import { memo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import {
   BarsArrowDownIcon,
   BarsArrowUpIcon,
-  ClipboardDocumentListIcon,
-  PlusIcon,
+  TableCellsIcon,
 } from '@heroicons/react/24/solid';
 import {
-  Button,
   Accordion,
   AccordionHeader,
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { addRound, setPlayerName } from '@/stores/woodball';
-import { memo, useState } from 'react';
+import { setPlayerName, setRoundIndex } from '@/stores/woodball';
 import RemovePlayerButton from '@/components/common/dialog-button/RemovePlayerButton';
-import RoundCard from '@/components/team/RoundCard';
+import RemoveRoundButton from '@/components/common/dialog-button/RemoveRoundButton';
 
-const PlayerCard = ({
+const RoundCard = ({
   teamId,
   playerId,
+  roundId,
 }: {
   teamId: string;
   playerId: string;
+  roundId: string;
 }) => {
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) =>
     state.woodBall.teams.find((team) => team.id === teamId)
   );
-  const roundNumber = useAppSelector(
-    (state) => state.woodBall.game.roundNumber
-  );
+  const goalNumber = useAppSelector((state) => state.woodBall.game.goalNumber);
   const player = team?.players.find((player) => player.id === playerId);
+  const round = player?.rounds.find((round) => round.id === roundId);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
   if (!player) {
@@ -48,7 +47,7 @@ const PlayerCard = ({
           }`}
           onClick={toggleOpen}>
           <div className="flex flex-1 justify-between">
-            <span>ชื่อ {player.name}</span>
+            <span>รอบที่ {round?.index}</span>
             {open ? (
               <BarsArrowUpIcon className="w-5" />
             ) : (
@@ -61,48 +60,38 @@ const PlayerCard = ({
             <div className="flex justify-between">
               <Input
                 variant="static"
-                label="ชื่อ"
+                label="รอบที่"
                 onChange={(e) =>
                   dispatch(
-                    setPlayerName({
+                    setRoundIndex({
                       teamId: teamId,
                       playerId: playerId,
-                      playerName: e.target.value,
+                      roundId: roundId,
+                      roundIndex: e.target.value,
                     })
                   )
                 }
-                value={player.name}
+                value={round?.index}
               />
               <div className="mx-2">
-                <RemovePlayerButton teamId={teamId} playerId={playerId} />
+                <RemoveRoundButton
+                  teamId={teamId}
+                  playerId={playerId}
+                  roundId={roundId}
+                />
               </div>
             </div>
           </div>
           <div className="flex flex-col mt-4">
             <div className="flex">
-              <ClipboardDocumentListIcon className="w-5 mr-2" />
-              <h1 className="text-xl font-bold">รอบการแข่งขัน</h1>
+              <TableCellsIcon className="w-5 mr-2" />
+              <h1 className="text-xl font-bold">คะแนนแข่งขัน</h1>
             </div>
-            {(player.rounds ?? [])
-              .filter((_, index) => index < roundNumber)
-              .map((round) => (
-                <RoundCard
-                  key={round.id}
-                  teamId={teamId}
-                  playerId={playerId}
-                  roundId={round.id}
-                />
+            {(round?.goals ?? [])
+              .filter((_, index) => index < goalNumber)
+              .map((goal) => (
+                <span>{goal.score}</span>
               ))}
-            {(player.rounds ?? []).length < roundNumber && (
-              <div className="mt-4">
-                <Button
-                  size="sm"
-                  className="flex"
-                  onClick={() => dispatch(addRound({ teamId, playerId }))}>
-                  <PlusIcon className="mr-1 w-4" /> เพิ่มรอบ
-                </Button>
-              </div>
-            )}
           </div>
         </AccordionBody>
       </Accordion>
@@ -110,4 +99,4 @@ const PlayerCard = ({
   );
 };
 
-export default memo(PlayerCard);
+export default memo(RoundCard);
