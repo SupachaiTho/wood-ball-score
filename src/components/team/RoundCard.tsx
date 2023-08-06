@@ -11,8 +11,7 @@ import {
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { setPlayerName, setRoundIndex } from '@/stores/woodball';
-import RemovePlayerButton from '@/components/common/dialog-button/RemovePlayerButton';
+import { setRoundIndex } from '@/stores/woodball';
 import RemoveRoundButton from '@/components/common/dialog-button/RemoveRoundButton';
 
 const RoundCard = ({
