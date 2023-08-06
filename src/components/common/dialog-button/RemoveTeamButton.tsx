@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import DialogButton from '@/components/base/DialogButton';
 import { removeTeam } from '@/stores/woodball';
 
-const RemoveTeamButton = ({ teamId }: { teamId: number }) => {
+const RemoveTeamButton = ({ teamId }: { teamId: string }) => {
   const team = useAppSelector((state) =>
     state.woodBall.teams.find((team) => team.id === teamId)
   );

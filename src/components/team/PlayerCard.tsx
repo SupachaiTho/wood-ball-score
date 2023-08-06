@@ -1,30 +1,30 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/react/24/solid';
 import {
-  BarsArrowDownIcon,
-  BarsArrowUpIcon,
-  UserGroupIcon,
-  UserPlusIcon,
-} from '@heroicons/react/24/solid';
-import {
-  Button,
   Accordion,
   AccordionHeader,
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { addPlayer, setTeamName } from '@/stores/woodball';
+import { setTeamName } from '@/stores/woodball';
 import { memo, useState } from 'react';
-import RemoveTeamButton from '@/components/common/dialog-button/RemoveTeamButton';
-import PlayerCard from '@/components/team/PlayerCard';
+import RemovePlayerButton from '@/components/common/dialog-button/RemovePlayerButton';
 
-const TeamCard = ({ teamId }: { teamId: string }) => {
+const PlayerCard = ({
+  teamId,
+  playerId,
+}: {
+  teamId: string;
+  playerId: string;
+}) => {
   const dispatch = useAppDispatch();
   const team = useAppSelector((state) =>
     state.woodBall.teams.find((team) => team.id === teamId)
   );
+  const player = team?.players.find((player) => player.id === playerId);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
-  if (!team) {
+  if (!player) {
     return null;
   }
 
@@ -39,7 +39,7 @@ const TeamCard = ({ teamId }: { teamId: string }) => {
           }`}
           onClick={toggleOpen}>
           <div className="flex flex-1 justify-between">
-            <span>ชื่อทีม {team.name}</span>
+            <span>ชื่อ {player.name}</span>
             {open ? (
               <BarsArrowUpIcon className="w-5" />
             ) : (
@@ -52,37 +52,16 @@ const TeamCard = ({ teamId }: { teamId: string }) => {
             <div className="flex justify-between">
               <Input
                 variant="static"
-                label="ชื่อทีม"
+                label="ชื่อ"
                 onChange={(e) =>
                   dispatch(
                     setTeamName({ teamId: teamId, teamName: e.target.value })
                   )
                 }
-                value={team.name}
+                value={player.name}
               />
               <div className="mx-2">
-                <RemoveTeamButton teamId={teamId} />
-              </div>
-            </div>
-            <div className="flex flex-col mt-4">
-              <div className="flex">
-                <UserGroupIcon className="w-5 mr-2" />
-                <h1 className="text-xl font-bold">รายชื่อนักกีฬา</h1>
-              </div>
-              {team.players.map((player) => (
-                <PlayerCard
-                  key={player.id}
-                  teamId={player.teamId}
-                  playerId={player.id}
-                />
-              ))}
-              <div className="mt-4">
-                <Button
-                  size="sm"
-                  className="flex"
-                  onClick={() => dispatch(addPlayer(teamId))}>
-                  <UserPlusIcon className="mr-1 w-4" /> เพิ่มนักกีฬา
-                </Button>
+                <RemovePlayerButton teamId={teamId} playerId={playerId} />
               </div>
             </div>
           </div>
@@ -92,4 +71,4 @@ const TeamCard = ({ teamId }: { teamId: string }) => {
   );
 };
 
-export default memo(TeamCard);
+export default memo(PlayerCard);

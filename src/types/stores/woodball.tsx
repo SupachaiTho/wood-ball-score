@@ -8,12 +8,13 @@ interface Game {
 }
 
 interface Team {
-  id: number;
+  id: string;
   name: string;
   players: Player[];
 }
 
 interface Player {
-  id: number;
+  id: string;
+  teamId: string;
   name: string;
 }

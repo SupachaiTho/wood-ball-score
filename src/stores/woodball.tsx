@@ -13,6 +13,8 @@ const localWoodBallData = localStorageData
 
 const initialState = localWoodBallData as WoodBallState;
 
+const createTimeStamp = () => Date.now().toString();
+
 export const woodBallSlice = createSlice({
   name: 'woodBall',
   initialState,
@@ -21,7 +23,7 @@ export const woodBallSlice = createSlice({
       state.game.goalNumber = action.payload;
     },
     addTeam: (state) => {
-      const teamId = state.teams.length + 1;
+      const teamId = createTimeStamp();
       state.teams = [
         ...state.teams,
         { id: teamId, name: 'ทีม - ' + teamId, players: [] },
@@ -50,16 +52,41 @@ export const woodBallSlice = createSlice({
       const teamId = action.payload;
       state.teams = state.teams.map((team) => {
         if (team.id === teamId) {
-          const playerId = team.players.length + 1;
+          const playerId = createTimeStamp();
           return {
             ...team,
             players: [
               ...team.players,
               {
                 id: playerId,
+                teamId,
                 name: 'นักกีฬา - ' + playerId,
               },
             ],
+          };
+        }
+        return team;
+      });
+    },
+    removePlayer: (state, action) => {
+      const { teamId, playerId } = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            players: team.players.filter((player) => player.id !== playerId),
+          };
+        }
+        return team;
+      });
+    },
+    setPlayerName: (state, action) => {
+      const { teamId, teamName } = action.payload;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            name: teamName,
           };
         }
         return team;
@@ -74,6 +101,7 @@ export const {
   removeTeam,
   setTeamName,
   addPlayer,
+  removePlayer,
   resetData,
 } = woodBallSlice.actions;
 
