@@ -27,6 +27,6 @@ interface Round {
 }
 
 interface Goal {
-  id: string;
+  id: number;
   score: number;
 }

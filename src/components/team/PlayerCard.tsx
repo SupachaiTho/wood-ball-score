@@ -1,12 +1,18 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { BarsArrowDownIcon, BarsArrowUpIcon } from '@heroicons/react/24/solid';
 import {
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
+  ClipboardDocumentListIcon,
+  PlusIcon,
+} from '@heroicons/react/24/solid';
+import {
+  Button,
   Accordion,
   AccordionHeader,
   AccordionBody,
   Input,
 } from '@material-tailwind/react';
-import { setPlayerName } from '@/stores/woodball';
+import { addRound, setPlayerName } from '@/stores/woodball';
 import { memo, useState } from 'react';
 import RemovePlayerButton from '@/components/common/dialog-button/RemovePlayerButton';
 
@@ -21,13 +27,16 @@ const PlayerCard = ({
   const team = useAppSelector((state) =>
     state.woodBall.teams.find((team) => team.id === teamId)
   );
+  const roundNumber = useAppSelector(
+    (state) => state.woodBall.game.roundNumber
+  );
   const player = team?.players.find((player) => player.id === playerId);
   const [open, setOpen] = useState(false);
   const toggleOpen = () => setOpen((cur) => !cur);
   if (!player) {
     return null;
   }
-
+  console.log(player.rounds);
   return (
     <div className="flex">
       <Accordion
@@ -68,6 +77,27 @@ const PlayerCard = ({
                 <RemovePlayerButton teamId={teamId} playerId={playerId} />
               </div>
             </div>
+          </div>
+          <div className="flex flex-col mt-4">
+            <div className="flex">
+              <ClipboardDocumentListIcon className="w-5 mr-2" />
+              <h1 className="text-xl font-bold">รอบการแข่งขัน</h1>
+            </div>
+            {(player.rounds ?? [])
+              .filter((_, index) => index < roundNumber)
+              .map((round) => (
+                <span>{round.id}</span>
+              ))}
+            {(player.rounds ?? []).length < roundNumber && (
+              <div className="mt-4">
+                <Button
+                  size="sm"
+                  className="flex"
+                  onClick={() => dispatch(addRound({ teamId, playerId }))}>
+                  <PlusIcon className="mr-1 w-4" /> เพิ่มรอบ
+                </Button>
+              </div>
+            )}
           </div>
         </AccordionBody>
       </Accordion>

@@ -105,6 +105,39 @@ export const woodBallSlice = createSlice({
         return team;
       });
     },
+    addRound: (state, action) => {
+      const { teamId, playerId } = action.payload;
+      const goalNumber = state.game.goalNumber;
+      state.teams = state.teams.map((team) => {
+        if (team.id === teamId) {
+          return {
+            ...team,
+            players: team.players.map((player) => {
+              if (player.id === playerId) {
+                const roundId = createTimeStamp();
+                return {
+                  ...player,
+                  rounds: [
+                    ...(player.rounds ?? []),
+                    {
+                      id: roundId,
+                      goals: Array.from({ length: 10 }, (_, index) => {
+                        return {
+                          id: index + 1,
+                          score: 0,
+                        };
+                      }),
+                    },
+                  ],
+                };
+              }
+              return player;
+            }),
+          };
+        }
+        return team;
+      });
+    },
   },
 });
 
@@ -118,6 +151,7 @@ export const {
   removePlayer,
   setPlayerName,
   resetData,
+  addRound,
 } = woodBallSlice.actions;
 
 export default woodBallSlice.reducer;
