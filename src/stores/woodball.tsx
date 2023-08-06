@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const defaultState = {
   game: {
     goalNumber: 20,
+    roundNumber: 1,
   },
   teams: [],
 };
@@ -21,6 +22,9 @@ export const woodBallSlice = createSlice({
   reducers: {
     setGoal: (state, action) => {
       state.game.goalNumber = action.payload;
+    },
+    setRound: (state, action) => {
+      state.game.roundNumber = action.payload;
     },
     addTeam: (state) => {
       const teamId = createTimeStamp();
@@ -61,6 +65,7 @@ export const woodBallSlice = createSlice({
                 id: playerId,
                 teamId,
                 name: 'นักกีฬา - ' + playerId,
+                rounds: [],
               },
             ],
           };
@@ -105,6 +110,7 @@ export const woodBallSlice = createSlice({
 
 export const {
   setGoal,
+  setRound,
   addTeam,
   removeTeam,
   setTeamName,

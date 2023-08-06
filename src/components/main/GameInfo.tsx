@@ -1,12 +1,14 @@
 import { Input } from '@material-tailwind/react';
 import { useAppSelector, useAppDispatch } from '@/app/hooks';
-import { setGoal } from '@/stores/woodball';
+import { setGoal, setRound } from '@/stores/woodball';
 import { memo } from 'react';
 import { WrenchScrewdriverIcon } from '@heroicons/react/24/solid';
 import ResetButton from '@/components/common/dialog-button/ResetButton';
 
 const GameInfo = () => {
-  const goalNumber = useAppSelector((state) => state.woodBall.game.goalNumber);
+  const { goalNumber, roundNumber } = useAppSelector(
+    (state) => state.woodBall.game
+  );
   const dispatch = useAppDispatch();
 
   return (
@@ -22,6 +24,14 @@ const GameInfo = () => {
             label="จำนวนโกล"
             onChange={(e) => dispatch(setGoal(e.target.value))}
             value={goalNumber}
+          />
+        </div>
+        <div className="p-2">
+          <Input
+            variant="static"
+            label="จำนวนรอบ"
+            onChange={(e) => dispatch(setRound(e.target.value))}
+            value={roundNumber}
           />
         </div>
         <ResetButton />
